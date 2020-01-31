@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fafafa"
+    android:hardwareAccelerated="true"
+    android:orientation="vertical"
+    tools:context="com.yemajun.hao.browser.WebActivity">
+
+    <FrameLayout
+        android:id="@+id/fl_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- 浏览器容器区域 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="1"
+        android:background="#fff">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 网页进度条 -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:animationResolution="100"
+            android:max="100"
+            android:progress="1" />
+    </FrameLayout>
+    <!-- 顶部地址栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        android:background="@drawable/top_bar_bg"
+        android:orientation="horizontal"
+        android:id="@+id/agoHome">
+
+        <ImageView
+            android:id="@+id/goHome"
+            style="@style/NavIcon"
+            android:contentDescription="@string/nav_home"
+            android:padding="16dp"
+            android:layout_width="@dimen/top_bar_height"
+            android:layout_height="@dimen/top_bar_height"
+            android:src="@drawable/nav_home" />
+
+        <ImageView
+            android:id="@+id/webIcon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#01000000"
+            android:contentDescription="favicon"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:padding="20dp"
+            android:src="@drawable/internet" />
+
+        <EditText
+            android:id="@+id/textUrl"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:hint="@string/input_url"
+            android:imeOptions="actionGo"
+            android:inputType="textUri"
+            android:maxLines="1"
+            android:enabled="true"
+            android:focusable="true"
+            android:selectAllOnFocus="true"
+            android:gravity="center"
+            android:textColor="#606060"
+            android:textColorHint="#9f9f9f"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/btnStart"
+            android:layout_width="@dimen/top_bar_height"
+            android:layout_height="@dimen/top_bar_height"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:background="#01000000"
+            android:contentDescription="refresh"
+            android:padding="16dp"
+            android:src="@drawable/refresh" />
+
+    </LinearLayout>
+    <!-- 底部导航栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <!-- 后退按钮 -->
+        <RelativeLayout style="@style/NavItem">
+
+            <ImageView
+                android:id="@+id/goBack"
+                style="@style/NavIcon"
+                android:contentDescription="@string/nav_left"
+                android:src="@drawable/nav_left" />
+
+        </RelativeLayout>
+
+        <!-- 前进按钮 -->
+        <RelativeLayout style="@style/NavItem">
+
+            <ImageView
+                android:id="@+id/goForward"
+                style="@style/NavIcon"
+                android:contentDescription="@string/nav_right"
+                android:src="@drawable/nav_right" />
+
+        </RelativeLayout>
+
+        <!-- 菜单 -->
+        <RelativeLayout style="@style/NavItem">
+
+            <ImageView
+                android:id="@+id/navSet"
+                style="@style/NavIcon"
+                android:contentDescription="@string/nav_set"
+                android:src="@drawable/nav_set" />
+
+        </RelativeLayout>
+
+        <!-- 窗口按钮 -->
+        <RelativeLayout style="@style/NavItem">
+
+
+            <ImageView
+                style="@style/NavIcon"
+                android:contentDescription="@string/nav_page"
+                android:src="@drawable/nav_page" />
+
+            <TextView
+                style="@style/NavIcon"
+                android:gravity="center"
+                android:text="1"
+                android:textAlignment="center"
+                android:textColor="#555"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <!-- 主页按钮 -->
+        <RelativeLayout style="@style/NavItem">
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
