@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "野马导航",
+  "name": "野马好站",
   "version": "1.0.2",
-  "description": "野马导航",
+  "description": "野马好站",
   "icons": {
     "16": "img/icon.png",
     "48": "img/icon.png",
@@ -54,7 +54,7 @@
   "web_accessible_resources": [
     "js/inject.js"
   ],
-  "homepage_url": "https://hao.yipiyema.com",
+  "homepage_url": "https://hao.yemajun.com",
   "options_page": "html/options.html",
   "options_ui": {
     "page": "html/options.html",
