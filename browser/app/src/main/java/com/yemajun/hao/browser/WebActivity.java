@@ -11,10 +11,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -65,8 +67,46 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
 
         // 初始化 WebView
         initWeb();
+
+        // 处理 作为三方浏览器打开传过来的值
+        getDataFromBrowser(getIntent());
+
     }
 
+
+
+    /**
+     * 使用singleTask启动模式的Activity在系统中只会存在一个实例。
+     * 如果这个实例已经存在，intent就会通过onNewIntent传递到这个Activity。
+     * 否则新的Activity实例被创建。
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        getDataFromBrowser(intent);
+    }
+
+    /**
+     * 作为三方浏览器打开传过来的值
+     * Scheme: https
+     * url = scheme + "://" + host + path;
+     */
+    private void getDataFromBrowser(Intent intent) {
+        Uri data = intent.getData();
+        if (data != null) {
+            try {
+                String scheme = data.getScheme();
+                String host = data.getHost();
+                String path = data.getPath();
+                String text = "Scheme: " + scheme + "\n" + "host: " + host + "\n" + "path: " + path;
+                Log.e("data", text);
+                String url = scheme + "://" + host + path;
+                webView.loadUrl(url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * 绑定控件
      */
@@ -188,6 +228,7 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
                 exitTime = System.currentTimeMillis();
 
             }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 // 设置在webView点击打开的新网页在当前界面显示,而不跳转到新的浏览器中
@@ -199,6 +240,7 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
 
                 // 正常的内容，打开
                 if (url.startsWith(HTTP) || url.startsWith(HTTPS)) {
+
 
                     return false;
                 }
@@ -216,8 +258,6 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
 
 
         });
-
-
 
         // 重写 WebChromeClient
         webView.setWebChromeClient(new MkWebChromeClient());
@@ -290,6 +330,7 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
 
             // 正常的内容，打开
             if (url.startsWith(HTTP) || url.startsWith(HTTPS)) {
+
                 view.loadUrl(url);
                 return true;
             }
