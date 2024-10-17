@@ -85,7 +85,7 @@ var comm_list = [{
             url: "https://www.zhihu.com/billboard"
         }, {
             name: "应用排行",
-            url: "https://www.qimai.cn/rank"
+            url: "https://app.diandian.com/"
         }, {
             name: "电视剧榜单",
             url: "https://movie.douban.com/tv/"
@@ -94,7 +94,7 @@ var comm_list = [{
             url: "https://movie.douban.com/"
         }, {
             name: "音乐热歌",
-            url: "https://y.qq.com/n/yqq/toplist/26.html"
+            url: "https://www.kugou.com/yy/rank/home"
         }]
     }, {
         tag: "新鲜",
@@ -102,35 +102,35 @@ var comm_list = [{
             name: "今日热榜",
             url: "https://tophub.today/"
         }, {
-            name: "多多热榜",
-            url: "https://www.duoduorebang.com/"
+            name: "虎扑",
+            url: "https://bbs.hupu.com/all-gambia"
         }, {
-            name: "鱼塘",
-            url: "https://tophub.fun/"
+            name: "淘江湖",
+            url: "https://jianghu.taobao.com/"
         }, {
-            name: "二十次幂",
-            url: "https://www.ershicimi.com/"
+            name: "Box123",
+            url: "https://box123.io/"
         }, {
             name: "知微事见",
             url: "http://ef.zhiweidata.com/"
         }, {
-            name: "传送门",
-            url: "https://chuansongme.com/"
+            name: "NGA",
+            url: "https://bbs.nga.cn/"
         }, {
             name: "抽屉",
-            url: "https://dig.chouti.com/"
+            url: "https://dig.chouti.cn"
         }]
     }, {
         tag: "有趣",
         link: [{
-            name: "小鸡词典",
-            url: "https://jikipedia.com/"
+            name: "NodeSeek",
+            url: "https://www.nodeseek.com/"
         }, {
             name: "A姐分享",
             url: "https://www.ahhhhfs.com/"
         }, {
-            name: "你好污啊",
-            url: "https://www.nihaowua.com/"
+            name: "恩山无线",
+            url: "https://www.right.com.cn/forum/"
         }, {
             name: "吾爱破解",
             url: "https://www.52pojie.cn/forum.php"
@@ -138,11 +138,11 @@ var comm_list = [{
             name: "小霸王",
             url: "https://www.yikm.net/"
         }, {
-            name: "创造者日报",
-            url: "https://creatorsdaily.com/"
+            name: "饭否",
+            url: "https://fanfou.com/"
         }, {
-            name: "每日一文",
-            url: "https://meiriyiwen.com/"
+            name: "煎蛋",
+            url: "https://jandan.net/top"
         }]
     }, {
         tag: "科技",
@@ -159,14 +159,14 @@ var comm_list = [{
             name: "51cto",
             url: "https://www.51cto.com/"
         }, {
-            name: "infoq",
+            name: "InfoQ",
             url: "https://www.infoq.cn/"
         }, {
             name: "站长之家",
             url: "http://www.chinaz.com/"
         }, {
             name: "湾区日报",
-            url: "https://wanqu.co/issues/"
+            url: "https://wanqu.co/"
         }]
     }, {
         tag: "技术",
@@ -247,7 +247,7 @@ var comm_list = [{
             url: "https://www.163.com/"
         }, {
             name: "腾讯",
-            url: "https://portal.3g.qq.com/"
+            url: "https://www.qq.com/"
         }, {
             name: "新浪",
             url: "http://www.sina.com.cn/"
@@ -276,8 +276,8 @@ var comm_list = [{
             name: "低端影视",
             url: "https://ddys.pro/"
         }, {
-            name: "熊猫影视",
-            url: "https://xmvod520.com/"
+            name: "茶杯虎",
+            url: "https://www.725998.com/"
         }, {
             name: "伪人人影视",
             url: "https://www.renren.pro/"
@@ -381,8 +381,8 @@ var comm_list = [{
             name: "掌阅",
             url: "http://www.ireader.com/"
         }, {
-            name: "起点",
-            url: "https://www.qidian.com/"
+            name: "微信读书",
+            url: "https://weread.qq.com/"
         }]
     }, {
         tag: "商店",
