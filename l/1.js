@@ -228,11 +228,11 @@ var comm_list = [{
             name: "新浪财经",
             url: "https://gu.sina.cn/"
         }, {
+            name: "财联社",
+            url: "https://www.cls.cn/"
+        }, {
             name: "天津股侠",
             url: "https://weibo.com/u/1896820725"
-        }, {
-            name: "任泽平",
-            url: "https://weibo.com/u/5884573948"
         }, {
             name: "叶荣添",
             url: "https://weibo.com/u/1364334665"
@@ -954,8 +954,8 @@ var comm_list = [{
             name: "Telegram",
             url: "https://web.telegram.org/"
         }, {
-            name: "Github",
-            url: "https://www.github.com/"
+            name: "Threads",
+            url: "https://www.threads.net/"
         }, {
             name: "Ebay",
             url: "https://www.ebay.com/"
