@@ -229,7 +229,7 @@ var comm_list = [{
             url: "https://gu.sina.cn/"
         }, {
             name: "财联社",
-            url: "https://www.cls.cn/"
+            url: "https://m.cls.cn/"
         }, {
             name: "天津股侠",
             url: "https://weibo.com/u/1896820725"
@@ -1033,6 +1033,19 @@ var comm_list = [{
             i.src = "https://images.google.com/favicon.ico?" + Date.now(), i.onload = function() {
                 o(".search-form").attr("action", "https://www.google.com/search"), o(".search-form").prepend('<input class="search-hidden" type="hidden" name="tbm" value="isch">')
             }
+        } else if (o(t).hasClass("fy")) {
+            o(".search-form").attr("action", "https://fanyi.sogou.com/text"), o(".search-keyword").attr({
+                name: "keyword",
+                placeholder: "搜狗翻译"
+            })
+            var i = new Image
+            i.src = "https://images.google.com/favicon.ico?" + Date.now(), i.onload = function() {
+                o(".search-form").attr("action", "https://translate.google.com/"), o(".search-keyword").attr({
+                    name: "q",
+                    placeholder: "Google翻译"
+                })
+            }
+            
         } else if (o(t).hasClass("wiki")) {
             o(".search-form").attr("action", "https://baike.baidu.com/search"), o(".search-keyword").attr({
                 name: "word",
