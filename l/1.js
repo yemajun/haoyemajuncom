@@ -118,22 +118,22 @@ var comm_list = [{
             url: "https://bbs.nga.cn/"
         }, {
             name: "抽屉",
-            url: "https://dig.chouti.cn"
+            url: "https://dig.ichouti.cn/"
         }]
     }, {
         tag: "有趣",
         link: [{
-            name: "NodeSeek",
-            url: "https://www.nodeseek.com/"
+            name: "拾光分享站",
+            url: "https://www.qshare.cc/"
         }, {
             name: "A姐分享",
             url: "https://www.ahhhhfs.com/"
         }, {
-            name: "恩山无线",
-            url: "https://www.right.com.cn/forum/"
+            name: "t00ls",
+            url: "https://www.t00ls.com/"
         }, {
-            name: "吾爱破解",
-            url: "https://www.52pojie.cn/forum.php"
+            name: "Versus",
+            url: "https://versus.com/"
         }, {
             name: "小霸王",
             url: "https://www.yikm.net/"
@@ -143,6 +143,30 @@ var comm_list = [{
         }, {
             name: "煎蛋",
             url: "https://jandan.net/top"
+        }]
+    }, {
+        tag: "社区",
+        link: [{
+            name: "NodeSeek",
+            url: "https://www.nodeseek.com/"
+        }, {
+            name: "Nodeloc",
+            url: "https://nodeloc.cc/"
+        }, {
+            name: "恩山无线",
+            url: "https://www.right.com.cn/forum/"
+        }, {
+            name: "吾爱破解",
+            url: "https://www.52pojie.cn/forum.php"
+        }, {
+            name: "V2EX",
+            url: "https://www.v2ex.com/"
+        }, {
+            name: "LINUX DO",
+            url: "https://linux.do/"
+        }, {
+            name: "电鸭",
+            url: "https://eleduck.com/"
         }]
     }, {
         tag: "科技",
@@ -183,8 +207,8 @@ var comm_list = [{
             name: "ITpub",
             url: "http://www.itpub.net/"
         }, {
-            name: "V2EX",
-            url: "https://www.v2ex.com/"
+            name: "Hacker News",
+            url: "https://news.ycombinator.com/"
         }, {
             name: "Freebuf",
             url: "http://www.freebuf.com"
