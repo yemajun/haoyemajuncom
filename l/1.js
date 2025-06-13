@@ -162,11 +162,83 @@ var comm_list = [{
             name: "V2EX",
             url: "https://www.v2ex.com/"
         }, {
-            name: "LINUX DO",
+            name: "LINUXDO",
             url: "https://linux.do/"
         }, {
             name: "电鸭",
             url: "https://eleduck.com/"
+        }]
+    }, {
+        tag: "财经",
+        link: [{
+            name: "淘股吧",
+            url: "https://m.taoguba.com.cn/"
+        }, {
+            name: "东方财富",
+            url: "https://data.eastmoney.com/"
+        }, {
+            name: "新浪财经",
+            url: "https://gu.sina.cn/"
+        }, {
+            name: "财联社",
+            url: "https://m.cls.cn/"
+        }, {
+            name: "天津股侠",
+            url: "https://weibo.com/u/1896820725"
+        }, {
+            name: "叶荣添",
+            url: "https://weibo.com/u/1364334665"
+        }, {
+            name: "李大霄",
+            url: "https://weibo.com/u/1645823934"
+        }]
+    }, {
+        tag: "创投",
+        link: [{
+            name: "野马创社",
+            url: "https://yemacs.com"
+        }, {            
+            name: "36氪",
+            url: "https://36kr.com/"
+        }, {
+            name: "创业邦",
+            url: "http://www.cyzone.cn/"
+        }, {
+            name: "投资界",
+            url: "https://www.pedaily.cn/"
+        }, {
+            name: "砍柴",
+            url: "http://www.ikanchai.com/"
+        }, {
+            name: "i黑马",
+            url: "http://www.iheima.com/"
+        }, {
+            name: "创头条",
+            url: "http://www.ctoutiao.com/"
+        }]
+    }, {
+        tag: "AI",
+        link: [{
+            name: "ChatGPT",
+            url: "https://chatgpt.com/"
+        }, {
+            name: "Gemini",
+            url: "https://aistudio.google.com"
+        }, {
+            name: "DeepSeek",
+            url: "https://www.deepseek.com/"
+        }, {
+            name: "豆包",
+            url: "https://www.doubao.com/"
+        }, {
+            name: "元宝",
+            url: "https://yuanbao.tencent.com/"
+        }, {
+            name: "Grok",
+            url: "https://grok.com/"
+        }, {
+            name: "MCP",
+            url: "https://mcp.so/explore"
         }]
     }, {
         tag: "科技",
@@ -207,7 +279,7 @@ var comm_list = [{
             name: "ITpub",
             url: "http://www.itpub.net/"
         }, {
-            name: "Hacker News",
+            name: "HackerNews",
             url: "https://news.ycombinator.com/"
         }, {
             name: "Freebuf",
@@ -215,54 +287,6 @@ var comm_list = [{
         }, {
             name: "思否",
             url: "https://segmentfault.com/"
-        }]
-    }, {
-        tag: "创投",
-        link: [{
-            name: "野马创社",
-            url: "https://yemacs.com"
-        }, {            
-            name: "36氪",
-            url: "https://36kr.com/"
-        }, {
-            name: "创业邦",
-            url: "http://www.cyzone.cn/"
-        }, {
-            name: "投资界",
-            url: "https://www.pedaily.cn/"
-        }, {
-            name: "砍柴",
-            url: "http://www.ikanchai.com/"
-        }, {
-            name: "i黑马",
-            url: "http://www.iheima.com/"
-        }, {
-            name: "创头条",
-            url: "http://www.ctoutiao.com/"
-        }]
-    }, {
-        tag: "财经",
-        link: [{
-            name: "淘股吧",
-            url: "https://m.taoguba.com.cn/"
-        }, {
-            name: "东方财富",
-            url: "https://data.eastmoney.com/"
-        }, {
-            name: "新浪财经",
-            url: "https://gu.sina.cn/"
-        }, {
-            name: "财联社",
-            url: "https://m.cls.cn/"
-        }, {
-            name: "天津股侠",
-            url: "https://weibo.com/u/1896820725"
-        }, {
-            name: "叶荣添",
-            url: "https://weibo.com/u/1364334665"
-        }, {
-            name: "李大霄",
-            url: "https://weibo.com/u/1645823934"
         }]
     }, {
         tag: "资讯",
