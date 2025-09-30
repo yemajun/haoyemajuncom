@@ -1,6 +1,11 @@
 package com.yemajun.hao.browser;
-
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,11 +14,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.DownloadListener;
@@ -26,11 +32,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
+import android.view.WindowInsets;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import android.content.IntentFilter;
+import android.webkit.CookieManager;
+import android.webkit.URLUtil;
+import android.os.Environment;
 public class WebActivity extends AppCompatActivity implements View.OnClickListener {
 
     private WebView webView;
@@ -46,11 +56,29 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
     private static final String HTTPS = "https://";
     private static final int PRESS_BACK_EXIT_GAP = 2000;
     public static final String FILE = "file://";
+    // ... 您的成员变量 (webView, mUrl, 等)
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 101;
+    private String pendingDownloadUrl;
+    private String pendingUserAgent;
+    private String pendingContentDisposition;
+    private String pendingMimeType;
+    private long pendingContentLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // 请求窗口没有标题栏 (必须在 setContentView 之前调用)
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        // 设置全屏标志 (必须在 setContentView 之前调用)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // 对于具有刘海或摄像孔的设备，允许内容绘制到显示切口区域
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
         // 防止底部按钮上移
         getWindow().setSoftInputMode
                 (WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN |
@@ -70,10 +98,177 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
 
         // 处理 作为三方浏览器打开传过来的值
         getDataFromBrowser(getIntent());
+        // 为 WebView 设置下载监听器
+        if (webView != null) {
+            webView.setDownloadListener(new DownloadListener() {
+                @Override
+                public void onDownloadStart(String url, String userAgent,
+                                            String contentDisposition, String mimeType,
+                                            long contentLength) {
+                    Log.d("DownloadDebug", "Download started for URL: " + url);
+                    Log.d("DownloadDebug", "User-Agent: " + userAgent);
+                    Log.d("DownloadDebug", "Content-Disposition: " + contentDisposition);
+                    Log.d("DownloadDebug", "MIME type: " + mimeType);
+                    Log.d("DownloadDebug", "Content-Length: " + contentLength);
+
+                    // 存储下载信息，以备权限请求后使用
+                    pendingDownloadUrl = url;
+                    pendingUserAgent = userAgent;
+                    pendingContentDisposition = contentDisposition;
+                    pendingMimeType = mimeType;
+                    pendingContentLength = contentLength;
+
+                    // 检查写入权限 (对于 API 28 及以下, 或如果您想更灵活地控制下载位置)
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) { // Android 9 及以下
+                        if (ContextCompat.checkSelfPermission(WebActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // 请求权限
+                            ActivityCompat.requestPermissions(WebActivity.this,
+                                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+                        } else {
+                            // 权限已授予，开始下载
+                            startDownload();
+                        }
+                    } else {
+                        // Android 10 (API 29) 及以上，可以直接下载到公共目录或应用特定目录，通常不需要显式权限
+                        startDownload();
+                    }
+                }
+            });
+        } else {
+            Log.e("WebActivity", "WebView is null, cannot set DownloadListener.");
+        }
+        // 注册下载完成的广播接收器 (可选)
+        getDataFromBrowser(getIntent());
 
     }
 
+    private void startDownload() {
+        if (pendingDownloadUrl == null) {
+            Log.e("DownloadDebug", "Pending download URL is null. Cannot start download.");
+            Toast.makeText(this, "下载链接无效", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        android.app.DownloadManager.Request request = new android.app.DownloadManager.Request(Uri.parse(pendingDownloadUrl));
+        // 获取 Cookie (对于需要登录才能下载的链接很重要)
+        String cookies = CookieManager.getInstance().getCookie(pendingDownloadUrl);
+        request.addRequestHeader("cookie", cookies);
+        request.addRequestHeader("User-Agent", pendingUserAgent);
+
+        // 从 contentDisposition 中尝试解析文件名，如果无法解析则使用 URL 中的文件名
+        String fileName = URLUtil.guessFileName(pendingDownloadUrl, pendingContentDisposition, pendingMimeType);
+        Log.d("DownloadDebug", "Guessed FileName: " + fileName);
+
+
+        request.setTitle(fileName); // 下载通知栏标题
+        request.setDescription("正在下载..."); // 下载通知栏描述
+        request.setMimeType(pendingMimeType);
+
+        // 设置下载通知的可见性
+        request.setNotificationVisibility(android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        // 设置下载路径
+        // 对于 Android 10 (API 29) 及以上，推荐下载到公共的 Downloads 目录
+        // 对于 Android 9 (API 28) 及以下，如果请求了 WRITE_EXTERNAL_STORAGE 权限，也可以这样做
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+        // 或者，下载到应用专属的外部存储目录 (不需要额外权限)
+        // File destinationFile = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName);
+        // request.setDestinationUri(Uri.fromFile(destinationFile));
+
+        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        if (downloadManager != null) {
+            try {
+                long downloadId = downloadManager.enqueue(request);
+                Toast.makeText(this, "开始下载: " + fileName, Toast.LENGTH_LONG).show();
+                Log.d("DownloadDebug", "Download enqueued with ID: " + downloadId);
+            } catch (Exception e) {
+                Toast.makeText(this, "下载启动失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("DownloadDebug", "Error enqueuing download", e);
+            }
+        } else {
+            Toast.makeText(this, "无法访问下载服务", Toast.LENGTH_SHORT).show();
+            Log.e("DownloadDebug", "DownloadManager is null");
+        }
+
+        // 清除待处理的下载信息
+        clearPendingDownload();
+    }
+
+
+    private void clearPendingDownload() {
+        pendingDownloadUrl = null;
+        pendingUserAgent = null;
+        pendingContentDisposition = null;
+        pendingMimeType = null;
+        pendingContentLength = 0;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 权限被授予
+                Toast.makeText(this, "存储权限已获取，正在开始下载...", Toast.LENGTH_SHORT).show();
+                startDownload();
+            } else {
+                // 权限被拒绝
+                Toast.makeText(this, "存储权限被拒绝，无法下载文件。", Toast.LENGTH_LONG).show();
+                clearPendingDownload();
+            }
+        }
+    }
+
+    // 监听下载完成的广播
+    private BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1); // Use android.app.DownloadManager here
+            if (id != -1) {
+                DownloadManager.Query query = new DownloadManager.Query(); // Use android.app.DownloadManager here
+                query.setFilterById(id);
+                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE); // This is already correct
+                android.database.Cursor cursor = dm.query(query);
+                if (cursor != null && cursor.moveToFirst()) { // Add null check for cursor
+                    int statusIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                    int titleIndex = cursor.getColumnIndex(DownloadManager.COLUMN_TITLE);
+
+                    if (DownloadManager.STATUS_SUCCESSFUL == cursor.getInt(statusIndex)) {
+                        String fileName = cursor.getString(titleIndex);
+                        Toast.makeText(WebActivity.this, "下载完成: " + fileName, Toast.LENGTH_LONG).show();
+                        Log.d("DownloadDebug", "Download completed: " + fileName + " (ID: " + id + ")");
+                    } else if (DownloadManager.STATUS_FAILED == cursor.getInt(statusIndex)){
+                        int reasonIndex = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
+                        int reason = cursor.getInt(reasonIndex);
+                        String failedReason = "";
+                        switch(reason){
+                            case DownloadManager.ERROR_CANNOT_RESUME:
+                                failedReason = "ERROR_CANNOT_RESUME";
+                                break;
+                            case DownloadManager.ERROR_DEVICE_NOT_FOUND:
+                                failedReason = "ERROR_DEVICE_NOT_FOUND";
+                                break;
+                            // Add other DownloadManager error cases as needed
+                        }
+                        Log.e("DownloadDebug", "Download failed. Reason: " + failedReason + " (ID: " + id + ")");
+                        Toast.makeText(WebActivity.this, "下载失败: " + failedReason, Toast.LENGTH_LONG).show();
+                    }
+                    cursor.close(); // Don't forget to close the cursor
+                }
+            }
+        }
+    };
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 取消注册广播接收器
+        unregisterReceiver(onDownloadComplete);
+        clearPendingDownload(); // 清理，以防 Activity 销毁时有待处理的下载
+    }
 
     /**
      * 使用singleTask启动模式的Activity在系统中只会存在一个实例。
@@ -301,7 +496,9 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
         }
 
         // 开启Application H5 Caches 功能
-        settings.setAppCacheEnabled(true);
+        settings.setDomStorageEnabled(true);   // 启用 DOM Storage
+        settings.setDatabaseEnabled(true);     // 启用 Web SQL/IndexedDB 数据库
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT); // 默认缓存模式
         settings.setDomStorageEnabled(true);
         settings.setPluginState(WebSettings.PluginState.ON);
 
@@ -495,53 +692,48 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        int id = v.getId();
+
+        if (id == R.id.btnStart) {
             // 跳转 或 刷新
-            case R.id.btnStart:
-                if (textUrl.hasFocus()) {
-                    // 隐藏软键盘
-                    if (manager.isActive()) {
-                        manager.hideSoftInputFromWindow(textUrl.getApplicationWindowToken(), 0);
-                    }
-
-                    // 地址栏有焦点，是跳转
-                    String input = converKeywordLoadOrSearch(textUrl.getText().toString());
-
-                    webView.loadUrl(input);
-
-                    // 取消掉地址栏的焦点
-                    textUrl.clearFocus();
-                } else {
-                    // 地址栏没焦点，是刷新
-                    webView.reload();
-                    textUrl.clearFocus();
+            if (textUrl.hasFocus()) {
+                // 隐藏软键盘
+                if (manager.isActive()) {
+                    manager.hideSoftInputFromWindow(textUrl.getApplicationWindowToken(), 0);
                 }
-                break;
 
-            // 后退
-            case R.id.goBack:
-                webView.goBack();
-                break;
+                // 地址栏有焦点，是跳转
+                String input = converKeywordLoadOrSearch(textUrl.getText().toString());
 
-            // 前进
-            case R.id.goForward:
-                webView.goForward();
-                break;
+                webView.loadUrl(input);
 
-            // 设置
-            case R.id.navSet:
-                Toast.makeText(mContext, "功能开发中", Toast.LENGTH_SHORT).show();
-                break;
-
-            // 主页
-            case R.id.goHome:
+                // 取消掉地址栏的焦点
                 textUrl.clearFocus();
-                webView.loadUrl(getResources().getString(R.string.home_url));
-                break;
+            } else {
+                // 地址栏没焦点，是刷新
+                webView.reload();
+                textUrl.clearFocus();
+            }
 
-            default:
+        } else if (id == R.id.goBack) {
+            // 后退
+            webView.goBack();
+
+        } else if (id == R.id.goForward) {
+            // 前进
+            webView.goForward();
+
+        } else if (id == R.id.navSet) {
+            // 设置
+            Toast.makeText(mContext, "功能开发中", Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.goHome) {
+            // 主页
+            textUrl.clearFocus();
+            webView.loadUrl(getResources().getString(R.string.home_url));
         }
     }
+
 
 
 

@@ -1,17 +1,13 @@
 <resources>
 
     <!-- Base application theme.  Theme.AppCompat.Light.DarkActionBar -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowNoTitle">true</item>
+    <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@color/baise</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item> <!-- 移除窗口上方的阴影 -->
+        <!-- 如果您希望内容延展到状态栏和导航栏后面 (沉浸式体验) -->
+        <item name="android:windowTranslucentStatus">true</item>
+         <item name="android:windowTranslucentNavigation">true</item>
     </style>
-
     <!-- 底部导航栏一项 -->
     <style name="NavItem">
         <item name="android:layout_width">0dp</item>

@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -212,8 +212,9 @@ public class WebActivity extends AppCompatActivity implements View.OnClickListen
         }
 
         // 开启Application H5 Caches 功能
-        settings.setAppCacheEnabled(true);
-        settings.setDomStorageEnabled(true);
+        settings.setDomStorageEnabled(true);   // 启用 DOM Storage
+		settings.setDatabaseEnabled(true);     // 启用 Web SQL/IndexedDB 数据库
+		settings.setCacheMode(WebSettings.LOAD_DEFAULT); // 默认缓存模式
         settings.setPluginState(WebSettings.PluginState.ON);
 
         // 资源混合模式

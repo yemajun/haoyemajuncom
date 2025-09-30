@@ -7,15 +7,19 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+
         android:hardwareAccelerated="true"
+
         android:networkSecurityConfig="@xml/network_security_config">
 
         <activity
             android:name=".WebActivity"
             android:hardwareAccelerated="true"
+            android:label="@string/app_name"
+            android:theme="@style/FullScreenTheme"
+
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
-            android:screenOrientation="portrait">
+            android:exported="true">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
@@ -28,8 +32,23 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.dm.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+
         </activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 仅在 targetSdkVersion 28 或更低版本时才明确需要 -->
+    <!-- 对于 API 29+，DownloadManager 可以写入公共目录而无需此权限，或写入应用特定目录 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <!-- 如果您计划使用 DownloadManager 发出下载完成的通知（通常是默认行为）-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <!-- 网络访问权限 -->
     <uses-permission android:name="android.permission.INTERNET"/>
