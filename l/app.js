@@ -1,75 +1,11 @@
-! function(e) {
-    var n = !1;
-    if ("function" == typeof define && define.amd && (define(e), n = !0), "object" == typeof exports && (module.exports = e(), n = !0), !n) {
-        var o = window.Cookies,
-            t = window.Cookies = e();
-        t.noConflict = function() {
-            return window.Cookies = o, t
-        }
-    }
-}(function() {
-    function e() {
-        for (var e = 0, n = {}; e < arguments.length; e++) {
-            var o = arguments[e];
-            for (var t in o) n[t] = o[t]
-        }
-        return n
-    }
+let highlightindex = -1;
+(function($) {
+    "use strict";
 
-    function n(o) {
-        function t(n, r, i) {
-            var c;
-            if ("undefined" != typeof document) {
-                if (arguments.length > 1) {
-                    if ("number" == typeof(i = e({
-                            path: "/"
-                        }, t.defaults, i)).expires) {
-                        var a = new Date;
-                        a.setMilliseconds(a.getMilliseconds() + 864e5 * i.expires), i.expires = a
-                    }
-                    i.expires = i.expires ? i.expires.toUTCString() : "";
-                    try {
-                        c = JSON.stringify(r), /^[\{\[]/.test(c) && (r = c)
-                    } catch (e) {}
-                    r = o.write ? o.write(r, n) : encodeURIComponent(r + "").replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent), n = (n = (n = encodeURIComponent(n + "")).replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent)).replace(/[\(\)]/g, escape);
-                    var s = "";
-                    for (var f in i) i[f] && (s += "; " + f, !0 !== i[f] && (s += "=" + i[f]));
-                    return document.cookie = n + "=" + r + s
-                }
-                n || (c = {});
-                for (var p = document.cookie ? document.cookie.split("; ") : [], d = /(%[0-9A-Z]{2})+/g, u = 0; u < p.length; u++) {
-                    var l = p[u].split("="),
-                        C = l.slice(1).join("=");
-                    this.json || '"' !== C.charAt(0) || (C = C.slice(1, -1));
-                    try {
-                        var m = l[0].replace(d, decodeURIComponent);
-                        if (C = o.read ? o.read(C, m) : o(C, m) || C.replace(d, decodeURIComponent), this.json) try {
-                            C = JSON.parse(C)
-                        } catch (e) {}
-                        if (n === m) {
-                            c = C;
-                            break
-                        }
-                        n || (c[m] = C)
-                    } catch (e) {}
-                }
-                return c
-            }
-        }
-        return t.set = t, t.get = function(e) {
-            return t.call(t, e)
-        }, t.getJSON = function() {
-            return t.apply({
-                json: !0
-            }, [].slice.call(arguments))
-        }, t.defaults = {}, t.remove = function(n, o) {
-            t(n, "", e(o, {
-                expires: -1
-            }))
-        }, t.withConverter = n, t
-    }
-    return n(function() {})
-});
+    // --- Part 1: Cookie Library (js-cookie) ---
+    const Cookies = (function(){function e(){for(var e=0,n={};e<arguments.length;e++){var o=arguments[e];for(var t in o)n[t]=o[t]}return n}function n(o){function t(n,r,i){var c;if("undefined"!=typeof document){if(arguments.length>1){if("number"==typeof(i=e({path:"/"},t.defaults,i)).expires){var a=new Date;a.setMilliseconds(a.getMilliseconds()+864e5*i.expires),i.expires=a}i.expires=i.expires?i.expires.toUTCString():"";try{c=JSON.stringify(r),/^[\{\[]/.test(c)&&(r=c)}catch(e){}r=o.write?o.write(r,n):encodeURIComponent(r+"").replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,decodeURIComponent),n=(n=(n=encodeURIComponent(n+"")).replace(/%(23|24|26|2B|5E|60|7C)/g,decodeURIComponent)).replace(/[\(\)]/g,escape);var s="";for(var f in i)i[f]&&(s+="; "+f,!0!==i[f]&&(s+="="+i[f]));return document.cookie=n+"="+r+s}n||(c={});for(var p=document.cookie?document.cookie.split("; "):[],d=/(%[0-9A-Z]{2})+/g,u=0;u<p.length;u++){var l=p[u].split("="),C=l.slice(1).join("=");this.json||'"'!==C.charAt(0)||(C=C.slice(1,-1));try{var m=l[0].replace(d,decodeURIComponent);if(C=o.read?o.read(C,m):o(C,m)||C.replace(d,decodeURIComponent),this.json)try{C=JSON.parse(C)}catch(e){}if(n===m){c=C;break}n||(c[m]=C)}catch(e){}}return c}}return t.set=t,t.get=function(e){return t.call(t,e)},t.getJSON=function(){return t.apply({json:!0},[].slice.call(arguments))},t.defaults={},t.remove=function(n,o){t(n,"",e(o,{expires:-1}))},t.withConverter=n,t}return n(function(){})})();
+
+    // --- Part 2: Link Data ---
 var comm_list = [{
     slug: "common",
     list: [{
@@ -1010,125 +946,182 @@ var comm_list = [{
         }]
     }]
 }]
- ! function(o) {
-    "use strict"
 
-    function t(t) {
-        o(".work-link").find(".tab span.active").removeClass("active")
-        var e, n, a = "",
-            l = o(t).attr("class")
-        if (o(t).addClass("active"), o.each(comm_list, function(t, i) {
-                l == i.slug && (e = i.list, o.each(e, function(t, i) {
-                    a += "<ul><li><a style='background:#fff;color:#999;'>" + i.tag + "</a></li>", n = i.link, o.each(n, function(o, t) {
-                        a += '<li><a onclick="javascript:window.open(&#39;' + t.url + '&#39;)">' + t.name + "</a></li>"
-                    }), a += "</ul>"
-                }))
-            }), o(".work-link").find(".tab span:first").hasClass("active") && "1" == i("schl")) {} else o(".work-link").css("opacity", "1").find(".info").hide().html(a).fadeIn(200)
+    // --- Part 3: Main Application Logic ---
+
+    function getSetting(key) {
+        const defaults = { bkgd: "#ededed", srch: "baidu" };
+        return Cookies.get(key) || defaults[key];
     }
 
-    function i(o) {
-        var t = {
-            bkgd: "#ededed",
-            srch: "baidu",
-            schl: "0",
-            prov: "1",
-            univ: "1001"
+    function setSetting(key, value, days = 3650) {
+        Cookies.set(key, value, { expires: days });
+    }
+
+    function renderLinkList(slug) {
+        const dataSet = comm_list.find(item => item.slug === slug);
+        if (!dataSet) return;
+        const listHtml = dataSet.list.map(category => {
+            const links = category.link.map(link => `<li><a href="${link.url}" target="_blank">${link.name}</a></li>`).join('');
+            const tagHtml = `<li class="category-tag"><a>${category.tag}</a></li>`;
+            return `<ul>${tagHtml}${links}</ul>`;
+        }).join('');
+        $(".work-link .info").stop(true, true).css("opacity", 0).html(listHtml).animate({ opacity: 1 }, 200);
+        $('.work-link').css('opacity', 1);
+    }
+
+    function updateSearchEngine(engineName) {
+        if (typeof engineName !== 'string' || !engineName) {
+            engineName = 'baidu';
         }
-        return Cookies.get(o) || t[o]
-    }
-
-    function e(o, t, i) {
-        Cookies.set(o, t, {
-            expires: i || 3650
-        })
-    }
-
-    function n(t) {
-        o("body").css("background", t)
-    }
-
-    function a(t) {
-        if (o(t).addClass("active").siblings(".active").removeClass("active"), o(".search-hidden").remove(), o(t).hasClass("baidu")) o(".search-form").attr("action", "https://www.baidu.com/s"), o(".search-keyword").attr({
-            name: "word",
-            placeholder: "百度一下"
-        })
-        else if (o(t).hasClass("so")) o(".search-form").attr("action", "https://www.so.com/s"), o(".search-keyword").attr({
-            name: "q",
-            placeholder: "360 搜索"
-        })
-        else if (o(t).hasClass("sogou")) o(".search-form").attr("action", "https://www.sogou.com/web"), o(".search-keyword").attr({
-            name: "query",
-            placeholder: "搜狗搜索"
-        })
-        else if (o(t).hasClass("google")) o(".search-form").attr("action", "https://www.google.com/search"), o(".search-keyword").attr({
-            name: "q",
-            placeholder: "Google 搜索"
-        })
-        else if (o(t).hasClass("yahoo")) o(".search-form").attr("action", "https://search.yahoo.com/search"), o(".search-keyword").attr({
-            name: "p",
-            placeholder: "Yahoo 搜索"
-        })
-        else if (o(t).hasClass("bing")) o(".search-form").attr("action", "https://cn.bing.com/search"), o(".search-keyword").attr({
-            name: "q",
-            placeholder: "Bing 搜索"
-        })
-        else if (o(t).hasClass("image")) {
-            o(".search-form").attr("action", "https://cn.bing.com/images/search"), o(".search-keyword").attr({
-                name: "q",
-                placeholder: "图片搜索"
-            })
-            var i = new Image
-            i.src = "https://images.google.com/favicon.ico?" + Date.now(), i.onload = function() {
-                o(".search-form").attr("action", "https://www.google.com/search"), o(".search-form").prepend('<input class="search-hidden" type="hidden" name="tbm" value="isch">')
-            }
-        } else if (o(t).hasClass("fy")) {
-            o(".search-form").attr("action", "https://fanyi.sogou.com/text"), o(".search-keyword").attr({
-                name: "keyword",
-                placeholder: "搜狗翻译"
-            })
-            var i = new Image
-            i.src = "https://images.google.com/favicon.ico?" + Date.now(), i.onload = function() {
-                o(".search-form").attr("action", "https://translate.google.com/"), o(".search-keyword").attr({
-                    name: "q",
-                    placeholder: "Google翻译"
-                })
-            }
-            
-        } else if (o(t).hasClass("wiki")) {
-            o(".search-form").attr("action", "https://baike.baidu.com/search"), o(".search-keyword").attr({
-                name: "word",
-                placeholder: "百科全书"
-            })
-            var i = new Image
-            i.src = "https://zh.wikipedia.org/favicon.ico?" + Date.now(), i.onload = function() {
-                o(".search-form").attr("action", "https://zh.wikipedia.org/w/index.php"), o(".search-keyword").attr("name", "search")
-            }
-        } else if (o(t).hasClass("torrent")) o(".search-form").attr("action", "https://zh.btdb.to/search"), o(".search-keyword").attr({
-            name: "q",
-            placeholder: "磁力链，种子搜索"
-        })
-        else if (o(t).hasClass("scholar")) {
-            o(".search-form").attr("action", "https://xueshu.baidu.com/s"), o(".search-keyword").attr({
-                name: "wd",
-                placeholder: "中英文文献检索"
-            })
-            var i = new Image
-            i.src = "https://scholar.google.com/favicon.ico?" + Date.now(), i.onload = function() {
-                o(".search-form").attr("action", "https://scholar.google.com/scholar"), o(".search-keyword").attr({
-                    name: "q"
-                }), o(".search-form").prepend('<input class="search-hidden" type="hidden" name="hl" value="zh-CN">')
-            }
+        const $tabElement = $('.search-tab span.' + engineName);
+        if (!$tabElement.length) {
+            updateSearchEngine('baidu');
+            return;
         }
-        o(".search-keyword").focus()
+        $tabElement.addClass("active").siblings(".active").removeClass("active");
+        const $form = $(".search-form");
+        const $input = $(".search-keyword");
+        $form.find('input[type="hidden"]').remove();
+        switch (engineName) {
+            case "baidu": $form.attr("action", "https://www.baidu.com/s"); $input.attr({ name: "word", placeholder: "百度一下" }); break;
+            case "sogou": $form.attr("action", "https://www.sogou.com/web"); $input.attr({ name: "query", placeholder: "搜狗搜索" }); break;
+            case "bing": $form.attr("action", "https://cn.bing.com/search"); $input.attr({ name: "q", placeholder: "Bing 搜索" }); break;
+            case "google": $form.attr("action", "https://www.google.com/search"); $input.attr({ name: "q", placeholder: "Google 搜索" }); break;
+            case "yahoo": $form.attr("action", "https://search.yahoo.com/search"); $input.attr({ name: "p", placeholder: "Yahoo 搜索" }); break;
+            case "fy": $form.attr("action", "https://fanyi.sogou.com/text"); $input.attr({ name: "keyword", placeholder: "搜狗翻译" }); const gc = new Image(); gc.src = "https://translate.google.com/favicon.ico?"+Date.now(); gc.onload = () => {$('.search-tab span.fy.active').length && ($form.attr("action", "https://translate.google.com/"),$input.attr({name: "q", placeholder: "Google 翻译"}))}; break;
+            case "wiki": $form.attr("action", "https://baike.baidu.com/item"); $input.attr({ name: "word", placeholder: "百科全书" }); const wc = new Image(); wc.src = "https://zh.wikipedia.org/favicon.ico?"+Date.now(); wc.onload = () => {$('.search-tab span.wiki.active').length && ($form.attr("action", "https://zh.wikipedia.org/w/index.php"),$input.attr("name", "search"))}; break;
+        }
+        $input.trigger('focus');
     }
-    var l = o(window)
-    o.ajaxSetup({
-        cache: !0
-    }), l.on("load", function() {
-        n(i("bkgd")), t(o(".work-link").find(".tab span:first")), a(o(".search-tab").find("span." + i("srch")))
-    }), o(".work-link .tab").on("click", "span", function() {
-        t(o(this))
-    }), o(".search-tab").on("click", "span", function() {
-        a(o(this)), e("srch", this.className.split(" ")[0])
-    })
-}(jQuery)
+
+    /**
+     * SearchSuggestions
+     */
+    function fetchSearchSuggestions() {
+        const query = $("#text").val();
+        if (!query) {
+            $("#word").empty().hide();
+            return;
+        }
+
+        $.ajax({
+            url: "https://m.baidu.com/su",
+            dataType: "jsonp",
+            jsonp: "cb", // 告诉 jQuery，API 期望的回调参数名是 'cb'
+            data: {
+                wd: query
+            },
+            // 让 jQuery 自动处理回调，并将数据传入 success 函数
+            success: function(data) {
+                const info = data.s;
+                const autoNode = $("#word");
+
+                if (!info || info.length === 0) {
+                    autoNode.hide();
+                    return;
+                }
+
+                autoNode.empty();
+                info.forEach((word, i) => {
+                    $("<div>")
+                        .attr("id", i)
+                        .addClass("click_work")
+                        .html(word)
+                        .appendTo(autoNode);
+                });
+                autoNode.show();
+            },
+            error: function(xhr, status, error) {
+                console.error("搜索建议请求失败:", status, error);
+                $("#word").hide();
+            }
+        });
+    }
+
+    function handleSearchInput(event) {
+        const $suggestions = $("#word").children("div");
+        const suggestionsCount = $suggestions.length;
+        switch (event.keyCode) {
+            case 38: event.preventDefault(); highlightindex = (highlightindex > 0) ? highlightindex - 1 : suggestionsCount - 1; updateSuggestionHighlight(); break;
+            case 40: event.preventDefault(); highlightindex = (highlightindex < suggestionsCount - 1) ? highlightindex + 1 : 0; updateSuggestionHighlight(); break;
+            case 13: if (highlightindex !== -1) { $("#text").val($suggestions.eq(highlightindex).text()); $("#word").hide(); highlightindex = -1; } break;
+            case 27: $("#word").hide(); highlightindex = -1; break;
+            default: highlightindex = -1; fetchSearchSuggestions(); break;
+        }
+    }
+
+    function updateSuggestionHighlight() {
+        const $suggestions = $("#word").children("div");
+        $suggestions.css({ "background-color": "", "color": "" });
+        if (highlightindex >= 0 && highlightindex < $suggestions.length) {
+            const $selected = $suggestions.eq(highlightindex);
+            $selected.css({ "background-color": "#313131", "color": "#fff" });
+            $("#text").val($selected.text());
+        }
+    }
+
+    function setupScrollMemory() {
+        $(window).on('scroll', function() {
+            if ($(document).scrollTop() !== 0) {
+                try { sessionStorage.setItem("offsetTop", $(window).scrollTop()); } catch (e) { console.warn("无法将会话存储用于滚动位置记忆。"); }
+            }
+        });
+        $(function() {
+            try { const offset = sessionStorage.getItem("offsetTop"); if (offset) { $(document).scrollTop(offset); } } catch (e) { console.warn("无法从会话存储中读取滚动位置。"); }
+        });
+    }
+
+    function hideFooterForYemaBrowser() {
+        if (window.navigator.userAgent.includes("YemaBrowser")) {
+            $('#site-footer').hide();
+        }
+    }
+
+    // --- DOM Ready Initializer ---
+    $(function() {
+        $('.work-link .tab span').each(function() {
+            const className = $(this).attr('class');
+            const slug = className.split(' ')[0];
+            $(this).data('slug', slug);
+        });
+
+        $('.work-link .tab').on('click', 'span', function() {
+            const $this = $(this);
+            $this.addClass("active").siblings(".active").removeClass("active");
+            renderLinkList($this.data("slug"));
+        });
+
+        $('.search-tab').on('click', 'span', function() {
+            const searchEngine = $(this).attr('class').split(' ')[0];
+            updateSearchEngine(searchEngine);
+            setSetting("srch", searchEngine);
+        });
+
+        $('#word').on('click', '.click_work', function() {
+            $("#text").val($(this).text());
+            $("#word").hide();
+            $('.search-form').trigger('submit');
+        });
+
+        $("#text").on('keyup', handleSearchInput);
+
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.search-form').length) {
+                $("#word").hide();
+            }
+        });
+
+        const initialSearchEngine = getSetting("srch");
+        updateSearchEngine(initialSearchEngine);
+
+        const $firstLinkTab = $(".work-link .tab span:first");
+        $firstLinkTab.addClass('active');
+        renderLinkList($firstLinkTab.data('slug'));
+
+        setupScrollMemory();
+        hideFooterForYemaBrowser();
+        $('body').css('background', getSetting('bkgd'));
+    });
+
+})(jQuery);

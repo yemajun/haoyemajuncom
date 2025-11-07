@@ -1,74 +1,70 @@
+<!DOCTYPE html>
 <html>
- <head>
-  <link rel="shortcut icon" href="favicon.ico" />
-  <title>野马好站：极简即自由</title>
-  <meta charset="utf-8" />
-  <meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport" />
-  <meta content="野马好站,野马导航,野马网址导航,野马网站导航,极简网址导航,野马搜索" name="keywords" />
-  <meta name="description" content="极简即自由,野马好站分享各种热门、新鲜、有趣、好玩的网站入口，提供简单便捷的站点导航服务和多种搜索引擎入口(・ω・)ノ" />
-  <link href="l/0.css" rel="stylesheet" />
- </head>
- <body style="background: rgb(237, 237, 237);">
-  <div id="site-main">
-   <div class="headline search-bar">
-    <div class="container" style="max-width: 650px;">
-     <div class="headline-content">
-      <div class="search-tab">
-       <span class="baidu active" onclick="navigator.vibrate(20);">百度</span>
-       <span class="sogou" onclick="navigator.vibrate(20);">搜狗</span>
-       <span class="bing" onclick="navigator.vibrate(20);">必应</span>
-       <span class="google" onclick="navigator.vibrate(20);">谷歌</span>
-       <span class="yahoo" onclick="navigator.vibrate(20);">雅虎</span>
-       <span class="fy" onclick="navigator.vibrate(20);">翻译</span>
-       <span class="wiki" onclick="navigator.vibrate(20);">百科</span>
-      </div>
-      <form class="search-form" target="_blank" action="https://www.baidu.com/s">
-       <div style="height: 46px;">
-        <input class="float-left search-keyword" type="search" autocomplete="off" autofocus="" name="word" placeholder="百度一下" id="text" />
-        <button class="float-right" type="button" value="搜索" id="ok" />
-        <svg style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1466">
-          <path d="M995.830324 995.833186c-37.551478 37.555771-98.442595 37.555771-135.998366 0L690.099793 826.096728c-69.778525 44.731805-152.275014 71.438385-241.32652 71.438385C200.92894 897.535113 0.002848 696.614745 0.002848 448.770411 0.002848 200.920354 200.92894-1.4e-05 448.773273-1.4e-05c247.855781 0 448.770426 200.920368 448.770426 448.770426 0 89.047214-26.700857 171.536548-71.439816 241.333675l169.726442 169.725011C1033.386095 897.384867 1033.386095 958.277416 995.830324 995.833186L995.830324 995.833186zM448.773273 128.218472C271.747739 128.218472 128.23135 271.734861 128.23135 448.770411c0 177.031258 143.510665 320.547647 320.541923 320.547647 177.036982 0 320.547647-143.516389 320.547647-320.547647C769.32092 271.734861 625.810255 128.218472 448.773273 128.218472L448.773273 128.218472zM448.773273 128.218472" p-id="1467"></path>
-        </svg>
-      </button>
-       </div>
-       <div id="word"></div>
-      </form>
-     </div>
+<head>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <title>野马好站：极简即自由</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1" name="viewport" />
+    <meta content="野马好站,野马导航,野马网址导航,野马网站导航,极简网址导航,野马搜索" name="keywords" />
+    <meta name="description" content="极简即自由,野马好站分享各种热门、新鲜、有趣、好玩的网站入口，提供简单便捷的站点导航服务和多种搜索引擎入口(・ω・)ノ" />
+    <link href="l/0.css" rel="stylesheet" />
+</head>
+<body style="background: rgb(237, 237, 237);">
+    <div id="site-main">
+        <div class="headline search-bar">
+            <div class="container" style="max-width: 650px;">
+                <div class="headline-content">
+                    <div class="search-tab">
+                        <span class="baidu active" onclick="navigator.vibrate(20);">百度</span>
+                        <span class="sogou" onclick="navigator.vibrate(20);">搜狗</span>
+                        <span class="bing" onclick="navigator.vibrate(20);">必应</span>
+                        <span class="google" onclick="navigator.vibrate(20);">谷歌</span>
+                        <span class="yahoo" onclick="navigator.vibrate(20);">雅虎</span>
+                        <span class="fy" onclick="navigator.vibrate(20);">翻译</span>
+                        <span class="wiki" onclick="navigator.vibrate(20);">百科</span>
+                    </div>
+                    <form class="search-form" target="_blank" action="https://www.baidu.com/s">
+                        <div style="height: 46px;">
+                            <input class="float-left search-keyword" type="search" autocomplete="off" autofocus="" name="word" placeholder="百度一下" id="text" />
+                            <button class="float-right" type="submit" value="搜索" id="ok">
+                                <svg style="width: 1em; height: 1em;vertical-align: baseline;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M995.830324 995.833186c-37.551478 37.555771-98.442595 37.555771-135.998366 0L690.099793 826.096728c-69.778525 44.731805-152.275014 71.438385-241.32652 71.438385C200.92894 897.535113 0.002848 696.614745 0.002848 448.770411 0.002848 200.920354 200.92894-1.4e-05 448.773273-1.4e-05c247.855781 0 448.770426 200.920368 448.770426 448.770426 0 89.047214-26.700857 171.536548-71.439816 241.333675l169.726442 169.725011C1033.386095 897.384867 1033.386095 958.277416 995.830324 995.833186L995.830324 995.833186zM448.773273 128.218472C271.747739 128.218472 128.23135 271.734861 128.23135 448.770411c0 177.031258 143.510665 320.547647 320.541923 320.547647 177.036982 0 320.547647-143.516389 320.547647-320.547647C769.32092 271.734861 625.810255 128.218472 448.773273 128.218472L448.773273 128.218472zM448.773273 128.218472" p-id="1467"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="word"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="works">
+            <div class="work-link" style="opacity: 1;">
+                <div class="container">
+                    <div class="tab" style="display: none">
+                        <span class="common active">热门</span>
+                        <span class="amuse">娱乐</span>
+                        <span class="study">学习</span>
+                        <span class="life">生活</span>
+                    </div>
+                    <div class="info">
+                        <ul></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer id="site-footer">
+            <div class="container">
+                <div class="copy">
+                    <a href="https://www.yemajun.com/" target="_blank">
+                        <span style="font-size: 14px;display: inline-block;transform: rotate(180deg);">&copy;</span> 野马君
+                    </a>
+                    <br />
+                    <a href="com.yemajun.hao.2025.1001.apk" target="_blank">Android客户端</a>&nbsp;&nbsp;<a href="haoyemajun.crx" target="_blank">Chrome应用</a>
+                </div>
+            </div>
+        </footer>
     </div>
-   </div>
-   <div class="works">
-    <div class="work-link" style="opacity: 1;">
-     <div class="container">
-        <div class="tab" style="display: none">
-            <span class="common active">热门</span>
-            <span class="amuse">娱乐</span>
-            <span class="study">学习</span>
-            <span class="life">生活</span>
-          </div>
-      <div class="info">
-       <ul></ul>
-      </div>
-     </div>
-    </div>
-   </div>
-   <footer id="site-footer">
-    <div class="container">
-     <div class="copy">
-      <a href="https://www.yemajun.com/" target="_blank">
-        <apan style="font-size: 14px;display: inline-block;transform: rotate(180deg);">
-        &copy;
-       </apan> 野马君
-       </a>
-      <br />
-      <a href="https://hao.yemajun.com/com.yemajun.hao.2025.1001.apk" target="_blank">Android客户端</a>&nbsp;&nbsp;<a href="https://hao.yemajun.com/haoyemajun.crx" target="_blank">Chrome应用</a>
-     </div>
-    </div>
-   </footer>
-  </div>
-  <script src="l/0.js"></script>
-  <script src="l/1.js"></script>
-  <script src="l/J.js"></script>
-  <script src="l/o.js"></script>
-  <script src="l/l.js"></script>
- </body>
+    <script src="l/J.js"></script>
+    <script src="l/app.js"></script>
+</body>
 </html>
