@@ -845,8 +845,8 @@ var comm_list = [{
             name: "匿名查询",
             url: "https://whoer.net/"
         }, {
-            name: "测速",
-            url: "https://www.speedtest.cn/"
+            name: "IP溯源",
+            url: "https://ip.sy/"
         }]
     }, {
         tag: "域名工具",
@@ -895,6 +895,30 @@ var comm_list = [{
         }, {
             name: "WAVE",
             url: "https://wave.webaim.org/"
+        }]
+    }, {
+        tag: "其他工具",
+        link: [{
+            name: "KMS",
+            url: "https://kms.to.run.place/"
+        }, {
+            name: "CF地址优选",
+            url: "https://api.uouin.com/cloudflare.html"
+        }, {
+            name: "域名健康检测",
+            url: "https://api.urlce.com/"
+        }, {
+            name: "宽带提速",
+            url: "https://k.ionewu.com/"
+        }, {
+            name: "M3U8播放器",
+            url: "https://m3u8play.com/"
+        }, {
+            name: "SSL自签证书",
+            url: "https://www.joyssl.com/support/tools/owncert.html"
+        }, {
+            name: "股票盈亏计算器",
+            url: "https://money.wengu8.com/gp/"
         }]
     }, {
         tag: "Git",
